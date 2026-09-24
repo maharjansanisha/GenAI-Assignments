@@ -17,7 +17,7 @@ python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 ```
 
-Create a `.env` file in the project folder (it is git-ignored — never commit it):
+Create a `.env` file in the project folder
 
 ```text
 GEMINI_API_KEY=your-gemini-key
