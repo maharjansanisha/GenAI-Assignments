@@ -5,8 +5,8 @@ Assignments for the GenAI course, built with the **Google Gemini SDK** and Pytho
 | #   | Assignment                                    | Files                                                     | Status  |
 | --- | --------------------------------------------- | --------------------------------------------------------- | ------- |
 | 1   | [Weather Agent](#assignment-1--weather-agent) | `Assignment01_Weather_Agent.ipynb`, `weather_agent_ui.py` | ✅ Done |
-| 2   | _Coming soon_                                 |                                                           |         |
-| 3   | _Coming soon_                                 |                                                           |         |
+| 2   | _Strands Travel Planner_                      |                                                           |         |
+| 3   | _Strands Travel Planner Chatbot_              |                                                           |         |
 
 ## Setup (shared by all assignments)
 
@@ -31,7 +31,7 @@ To run a notebook, open it, select the `.venv` kernel, and run the cells top to 
 
 ---
 
-## Assignment 1 — Weather Agent
+## Assignment 1: Weather Agent
 
 A Gemini agent that gets the current weather for up to three locations from the **OpenWeather API**, calls the weather tool **one location at a time**, and calculates the **average temperature in Python**.
 
