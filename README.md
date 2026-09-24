@@ -2,11 +2,11 @@
 
 Assignments for the GenAI course, built with the **Google Gemini SDK** and Python.
 
-| #   | Assignment                                    | Files                                                     | Status  |
-| --- | --------------------------------------------- | --------------------------------------------------------- | ------- |
-| 1   | [Weather Agent](#assignment-1--weather-agent) | `Assignment01_Weather_Agent.ipynb`, `weather_agent_ui.py` | ✅ Done |
-| 2   | _Strands Travel Planner_                      |                                                           |         |
-| 3   | _Strands Travel Planner Chatbot_              |                                                           |         |
+| #   | Assignment                                    | Files                                                     | Status |
+| --- | --------------------------------------------- | --------------------------------------------------------- | ------ |
+| 1   | [Weather Agent](#assignment-1--weather-agent) | `Assignment01_Weather_Agent.ipynb`, `weather_agent_ui.py` | Done   |
+| 2   | Strands Travel Planner                        | _Coming Soon_                                             |        |
+| 3   | Strands Travel Planner Chatbot                | _Coming Soon_                                             |        |
 
 ## Setup (shared by all assignments)
 
