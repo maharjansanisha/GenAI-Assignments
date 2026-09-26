@@ -8,4 +8,5 @@ groq>=1.7.0          # optional: Groq backup when Gemini is rate limited
 strands-agents>=1.57.1   # Assignment 2: Strands Agents SDK
 openai>=1.68.0,<3.0.0    # Assignment 2: Strands OpenAIModel (used with Groq); Strands needs <3
 tavily-python>=0.8.4     # Assignment 2: web search tool
+gradio>=6.28.0           # Assignment 3: chatbot UI
 ipykernel>=7.3.0     

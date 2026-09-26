@@ -2,11 +2,11 @@
 
 Assignments for the GenAI course, built with Python, the **Google Gemini SDK** and **Strands Agents**.
 
-| #   | Assignment                                                     | Files                                                     | Status |
-| --- | -------------------------------------------------------------- | --------------------------------------------------------- | ------ |
-| 1   | [Weather Agent](#assignment-1-weather-agent)                   | `Assignment01_Weather_Agent.ipynb`, `weather_agent_ui.py` | Done   |
-| 2   | [Strands Travel Planner](#assignment-2-strands-travel-planner) | `Assignment02_Strands_Travel_Planner.ipynb`               | Done   |
-| 3   | Strands Travel Planner Chatbot                                 | _Coming Soon_                                             |        |
+| #   | Assignment                                                                     | Files                                                     | Status |
+| --- | ------------------------------------------------------------------------------ | --------------------------------------------------------- | ------ |
+| 1   | [Weather Agent](#assignment-1-weather-agent)                                   | `Assignment01_Weather_Agent.ipynb`, `weather_agent_ui.py` | Done   |
+| 2   | [Strands Travel Planner](#assignment-2-strands-travel-planner)                 | `Assignment02_Strands_Travel_Planner.ipynb`               | Done   |
+| 3   | [Strands Travel Planner Chatbot](#assignment-3-strands-travel-planner-chatbot) | `assignment03_travel_chatbot.py`                          | Done   |
 
 ## Setup (shared by all assignments)
 
@@ -22,8 +22,8 @@ Create a `.env` file in the project folder
 ```text
 GEMINI_API_KEY=your-gemini-key
 OPENWEATHER_API_KEY=your-openweather-key
-GROQ_API_KEY=your-groq-key       # Assignment 2 (and the optional failover in Assignment 1)
-TAVILY_API_KEY=your-tavily-key   # Assignment 2 web search
+GROQ_API_KEY=your-groq-key       # Assignments 2 and 3 (and the optional failover in Assignment 1)
+TAVILY_API_KEY=your-tavily-key   # Assignments 2 and 3 web search
 ```
 
 Keys: [Google AI Studio](https://aistudio.google.com/apikey) · [OpenWeather](https://home.openweathermap.org/api_keys) · [Groq](https://console.groq.com/keys) · [Tavily](https://app.tavily.com)
@@ -79,9 +79,9 @@ A "Test mode" banner appears and every request goes to Groq. Restart without the
 
 A **Strands Agents** agent that creates a one-day travel plan for a city. It uses three tools: current weather, web search for 3 popular attractions and their entry fees, and a calculator for the total cost.
 
-| File                                        | What it is                                             |
-| ------------------------------------------- | ------------------------------------------------------ |
-| `Assignment02_Strands_Travel_Planner.ipynb` | The solution notebook (tested with Kathmandu)          |
+| File                                        | What it is                                    |
+| ------------------------------------------- | --------------------------------------------- |
+| `Assignment02_Strands_Travel_Planner.ipynb` | The solution notebook (tested with Kathmandu) |
 
 ### How it works
 
@@ -102,3 +102,34 @@ Open the notebook, select the `.venv` kernel and run all cells. Change `CITY` in
 - An unknown city, a failed search or invalid costs return a clear error from the tool instead of crashing.
 - The agent run is wrapped in `try/except`, so a rate limit or network problem shows a friendly message.
 - If an attraction's price can't be found, the plan says so and it counts as 0 in the total.
+
+---
+
+## Assignment 3: Strands Travel Planner Chatbot
+
+A **Gradio chatbot** version of Assignment 2: type a city and get a one-day travel plan in the chat.
+
+| File                             | What it is                                |
+| -------------------------------- | ----------------------------------------- |
+| `assignment03_travel_chatbot.py` | The chatbot app (Strands + Groq + Gradio) |
+
+### How it works
+
+1. **Same agent as Assignment 2:** Groq's `openai/gpt-oss-120b` through Strands' `OpenAIModel`, with the weather, Tavily search and calculator tools, run one at a time with `SequentialToolExecutor()`.
+2. **Gradio UI:** `gr.ChatInterface` calls a `chat(message, history)` function, as in the instructor's `GenAI03_chatbot.py`.
+3. **A fresh agent for each message**, so one city's plan doesn't affect the next.
+4. **Each reply ends with a footer** showing the tools used and the calculator's result, e.g. `Pashupatinath Temple (1000) + Boudhanath Stupa (400) + Swayambhunath (200) = 1600 NPR`.
+
+### Run
+
+```bash
+.venv/bin/python assignment03_travel_chatbot.py
+```
+
+Then open http://127.0.0.1:7860 and type a city, e.g. _Kathmandu_ or _Plan a day in Pokhara_. Each plan takes about 20–40 seconds. Stop the app with Ctrl+C.
+
+### Error handling
+
+- An empty message or a message without a city gets a friendly prompt to name one.
+- An unknown city gets a "check the spelling" reply.
+- A Groq, network or search failure shows a "please try again" message instead of crashing.
