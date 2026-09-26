@@ -1,12 +1,12 @@
 # GenAI Assignments
 
-Assignments for the GenAI course, built with the **Google Gemini SDK** and Python.
+Assignments for the GenAI course, built with Python, the **Google Gemini SDK** and **Strands Agents**.
 
-| #   | Assignment                                    | Files                                                     | Status |
-| --- | --------------------------------------------- | --------------------------------------------------------- | ------ |
-| 1   | [Weather Agent](#assignment-1--weather-agent) | `Assignment01_Weather_Agent.ipynb`, `weather_agent_ui.py` | Done   |
-| 2   | Strands Travel Planner                        | _Coming Soon_                                             |        |
-| 3   | Strands Travel Planner Chatbot                | _Coming Soon_                                             |        |
+| #   | Assignment                                                     | Files                                                     | Status |
+| --- | -------------------------------------------------------------- | --------------------------------------------------------- | ------ |
+| 1   | [Weather Agent](#assignment-1-weather-agent)                   | `Assignment01_Weather_Agent.ipynb`, `weather_agent_ui.py` | Done   |
+| 2   | [Strands Travel Planner](#assignment-2-strands-travel-planner) | `Assignment02_Strands_Travel_Planner.ipynb`               | Done   |
+| 3   | Strands Travel Planner Chatbot                                 | _Coming Soon_                                             |        |
 
 ## Setup (shared by all assignments)
 
@@ -22,10 +22,11 @@ Create a `.env` file in the project folder
 ```text
 GEMINI_API_KEY=your-gemini-key
 OPENWEATHER_API_KEY=your-openweather-key
-GROQ_API_KEY=your-groq-key   # optional
+GROQ_API_KEY=your-groq-key       # Assignment 2 (and the optional failover in Assignment 1)
+TAVILY_API_KEY=your-tavily-key   # Assignment 2 web search
 ```
 
-Keys: [Google AI Studio](https://aistudio.google.com/apikey) · [OpenWeather](https://home.openweathermap.org/api_keys) · [Groq](https://console.groq.com/keys)
+Keys: [Google AI Studio](https://aistudio.google.com/apikey) · [OpenWeather](https://home.openweathermap.org/api_keys) · [Groq](https://console.groq.com/keys) · [Tavily](https://app.tavily.com)
 
 To run a notebook, open it, select the `.venv` kernel, and run the cells top to bottom.
 
@@ -71,3 +72,33 @@ A "Test mode" banner appears and every request goes to Groq. Restart without the
 - Unknown cities, timeouts, bad keys and rate limits return clear messages instead of crashing.
 - API keys are read from `.env` only and are never printed or shown. OpenWeather error text is never passed on, because its request URL contains the key.
 - The chat app accepts up to 3 locations per request.
+
+---
+
+## Assignment 2: Strands Travel Planner
+
+A **Strands Agents** agent that creates a one-day travel plan for a city. It uses three tools: current weather, web search for 3 popular attractions and their entry fees, and a calculator for the total cost.
+
+| File                                        | What it is                                             |
+| ------------------------------------------- | ------------------------------------------------------ |
+| `Assignment02_Strands_Travel_Planner.ipynb` | The solution notebook (tested with Kathmandu)          |
+
+### How it works
+
+1. **Model:** Groq's `openai/gpt-oss-120b`, used through Strands' `OpenAIModel` with Groq's OpenAI-compatible endpoint.
+2. **Tools** are plain Python functions with the `@tool` decorator:
+   - `get_current_weather(city)` — OpenWeather, in °C
+   - `search_web(query)` — Tavily web search (the agent writes its own queries for attractions and entry fees)
+   - `calculate_total_cost(costs, currency)` — adds the entry fees in Python
+3. **Sequential tool calls:** `SequentialToolExecutor()` runs one tool at a time, so the calculator only runs after the prices have been found.
+4. **The total comes from the calculator**, not the model. The notebook prints the tool calls the agent made, the calculator's result and the final itinerary separately, so they can be checked against each other.
+
+### Run
+
+Open the notebook, select the `.venv` kernel and run all cells. Change `CITY` in Section 6 to plan a different city.
+
+### Error handling
+
+- An unknown city, a failed search or invalid costs return a clear error from the tool instead of crashing.
+- The agent run is wrapped in `try/except`, so a rate limit or network problem shows a friendly message.
+- If an attraction's price can't be found, the plan says so and it counts as 0 in the total.
