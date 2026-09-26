@@ -89,7 +89,7 @@ A **Strands Agents** agent that creates a one-day travel plan for a city. It use
 2. **Tools** are plain Python functions with the `@tool` decorator:
    - `get_current_weather(city)` — OpenWeather, in °C
    - `search_web(query)` — Tavily web search (the agent writes its own queries for attractions and entry fees)
-   - `calculate_total_cost(costs, currency)` — adds the entry fees in Python
+   - `calculate_total_cost(attractions, costs, currency)` — adds the entry fees of exactly 3 attractions in Python, showing each attraction next to its cost
 3. **Sequential tool calls:** `SequentialToolExecutor()` runs one tool at a time, so the calculator only runs after the prices have been found.
 4. **The total comes from the calculator**, not the model. The notebook prints the tool calls the agent made, the calculator's result and the final itinerary separately, so they can be checked against each other.
 
