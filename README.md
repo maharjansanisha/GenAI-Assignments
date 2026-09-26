@@ -126,7 +126,7 @@ A **Gradio chatbot** version of Assignment 2: type a city and get a one-day trav
 .venv/bin/python assignment03_travel_chatbot.py
 ```
 
-Then open http://127.0.0.1:7860 and type a city, e.g. _Kathmandu_ or _Plan a day in Pokhara_. Each plan takes about 20–40 seconds. Stop the app with Ctrl+C.
+Then open http://127.0.0.1:7860 and type a city, e.g. _Kathmandu_ or _Plan a day in Pokhara_. Each plan takes about 20–40 seconds. 
 
 ### Error handling
 
